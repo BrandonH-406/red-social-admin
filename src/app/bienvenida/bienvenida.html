@@ -1,0 +1,89 @@
+<div class="container">
+
+    <br>
+    <h1>Administracion de Usuarios</h1>
+    <hr>
+    <form (ngSubmit)="guardarAdministrador()" id="formulario">
+        <div class="mb-3">
+            <label class="form-label">Usuario</label>
+            <input type="text" [(ngModel)]=administrador.usuario [ngModelOptions]="{standalone:true}" required
+                class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" [(ngModel)]=administrador.password [ngModelOptions]="{standalone:true}" required
+                class="form-control">
+        </div>
+        @if(administrador.idAdministrador){
+
+        <button matFab extended type="submit" class="btn btn-success float-end">
+            <mat-icon>edit</mat-icon>
+            Modificar
+        </button>
+
+        } @else{
+
+        <button matFab extended type="submit" class="btn btn-info float-end">
+            <mat-icon>add</mat-icon>
+            Crear
+        </button>
+
+        }
+    </form>
+
+    <button matFab extended (click)="eliminarAdministrador()" class="btn btn-danger float-end">
+        <mat-icon>delete</mat-icon>
+        Eliminar
+    </button>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">Contraseña</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (c of administradores; track $index){
+
+            <tr>
+                <th scope="row">{{c.idAdministrador}}</th>
+                <td>{{c.usuario}}</td>
+                <td>{{c.password}}</td>
+                <td> <button matFab aria-label="Example icon button with a delete icon" class="btn btn-warning"
+                        (click)="modificar(c)">
+                        <mat-icon>edit</mat-icon>
+                    </button></td>
+
+            </tr>
+            }
+        </tbody>
+    </table>
+    <hr>
+    <form (ngSubmit)="crearCalificacion()" id="formularioCali">
+        <label>fecha calificacion</label>
+        <input type="text" [(ngModel)]=calificacion.fechaCalificacion [ngModelOptions]="{standalone:true}" required>
+        <br><br>
+        <label>nota</label>
+        <input type="number" [(ngModel)]=calificacion.nota [ngModelOptions]="{standalone:true}" required>
+        <br><br>
+        <label>nombre</label>
+        <input type="text" [(ngModel)]=calificacion.nombre [ngModelOptions]="{standalone:true}" required>
+        <br><br>
+        <input type="submit" value="crear calificacion">
+    </form>
+    <hr>
+    @for (a of calificaciones; track $index){
+
+    <ul>
+        <li>{{a.idCalificacion}}</li>
+        <li>{{a.fechaCalificacion}}</li>
+        <li>{{a.nota}}</li>
+        <li>{{a.nombre}}</li>
+    </ul>
+    }
+
+</div>

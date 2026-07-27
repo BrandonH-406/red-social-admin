@@ -1,0 +1,112 @@
+<div class="container">
+    <h1>Gestion de Usuarios</h1>
+    <br>
+
+    <h5>BuscarUsuario</h5>
+    <mat-form-field class="example-form-field">
+        <mat-label>Nombre de usuario</mat-label>
+        <input matInput type="text" [(ngModel)]="nombre" [ngModelOptions]="{standalone:true}" required>
+        @if (nombre) {
+        <button matSuffix matIconButton aria-label="Clear" (click)="borrar()">
+            <mat-icon>close</mat-icon>
+        </button>
+        }
+    </mat-form-field>
+    <button matFab aria-label="Example icon button with a delete icon" (click)=filtrarUsuario()>
+        <mat-icon>search</mat-icon>
+    </button>
+    <br><br>
+    <h5>Informacion Usuario</h5>
+    <form (ngSubmit)="guardarUsuario()" id="formulario1">
+        <div class="mb-3">
+            <label class="form-label">Usuario</label>
+            <input type="text" [(ngModel)]=usuario.nombreUsuario [ngModelOptions]="{standalone:true}" required
+                class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="text" [(ngModel)]=usuario.email [ngModelOptions]="{standalone:true}" required
+                class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" [(ngModel)]=usuario.password [ngModelOptions]="{standalone:true}" required
+                class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" [(ngModel)]=usuario.nombre [ngModelOptions]="{standalone:true}" required
+                class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Estado</label>
+            <input type="text" [(ngModel)]=usuario.estado [ngModelOptions]="{standalone:true}" required
+                class="form-control">
+        </div>
+        @if(usuario.idUsuario){
+
+        <button matFab extended type="submit" class="btn btn-success float-end">
+            <mat-icon>edit</mat-icon>
+            Modificar
+        </button>
+
+        } @else{
+        <button matFab extended type="submit" class="btn btn-info float-end">
+            <mat-icon>add</mat-icon>
+            Crear
+        </button>
+        }
+    </form>
+    <button matFab extended (click)="eliminarUsuario()" class="btn btn-danger float-end">
+        <mat-icon>delete</mat-icon>
+        Eliminar
+    </button>
+
+    <br><br>
+    <h5>Lista de Usuarios</h5>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">Email</th>
+                <th scope="col">Password</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (c of usuarios; track $index) {
+            <tr>
+                <th scope="row">{{ c.idUsuario }}</th>
+                <td>{{ c.nombreUsuario }}</td>
+                <td>{{ c.email }}</td>
+                <td>{{ c.password }}</td>
+                <td>{{ c.nombre }}</td>
+                <td>{{ c.estado }}</td>
+                <td>
+                    <button matFab aria-label="Example icon button with a delete icon" class="btn btn-warning"
+                        (click)="modificar(c)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </td>
+                <td>
+                    <button matButton="elevated" (click)=" irADetallesDeUsuario(c.idUsuario)">Detalles</button>
+                </td>
+                @if (c.estado.toLowerCase() === 'activo') {
+                <td>
+                    <button matButton="elevated" class="btn btn-warning btn-sm" (click)="Bloquear(c)">Bloquear</button>
+                </td>
+                } @else {
+                <td>
+                    <button matButton="filled" class="btn btn-success btn-sm" (click)="Bloquear(c)">
+                        Desbloquear
+                    </button>
+                </td>
+                }
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

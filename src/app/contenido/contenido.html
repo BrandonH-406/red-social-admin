@@ -1,0 +1,112 @@
+<div class="container">
+    <br>
+    <h5>BuscarUsuario</h5>
+    <input type="text" [(ngModel)]="nombre" [ngModelOptions]="{standalone:true}" required>
+    <button class="btn btn-primary" (click)="BuscarInfo()">Buscar</button>
+    <button class="btn btn-info" (click)="final()">Nuevo</button>
+    <br><br>
+    @if(Buscar === true){
+    <h5>Comentarios de {{nombre}}</h5>
+    <div class="card" style="width: 18rem;" *ngFor="let cp of ComentariosPorUsuario">
+        <div class="card-body">
+            <h5 class="card-title">{{cp.usuario.nombreUsuario}}</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">publicacion: {{cp.publicacion.idPublicacion}}</h6>
+            <p class="card-text">{{cp.textoComentario}}</p>
+            <button matFab aria-label="Example icon button with a delete icon" (click)="EliminarC(cp)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </div>
+    <br><br>
+    <h5>Publicaciones de {{nombre}}</h5>
+    <div class="card" style="width: 18rem;" *ngFor="let p of PublicacionesPorUsuario">
+        <img [src]="p.imagen" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{p.usuario.nombreUsuario}}</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">{{p.fechaPublicacion}}</h6>
+            <h6 class="card-subtitle mb-2 text-body-secondary">Reacciones: {{p.cantidadMegusta}}</h6>
+            <p class="card-text">{{p.texto}}</p>
+            <button matFab extended (click)="VerComentarios()">
+                <mat-icon>visibility</mat-icon>
+                Ver comentarios
+            </button>
+            <button matFab aria-label="Example icon button with a delete icon" (click)="EliminarPublicacion(p)">
+                <mat-icon>delete</mat-icon>
+            </button>
+            <br><br>
+            <div class="comentarios" *ngIf="verComentarios">
+                <div *ngFor="let c of Comentarios">
+                    <div *ngIf="c.publicacion?.idPublicacion === p.idPublicacion">
+                        <h6 class="subtitle mb-2 text-body-secondary"><strong>{{c.usuario.nombreUsuario}}</strong>
+                        </h6>
+                        <p class="text">{{c.textoComentario}}</p>
+                        <button matFab aria-label="Example icon button with a delete icon" (click)="EliminarC(c)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+
+
+
+    <br><br>
+    <h5>Todos los Comentarios</h5>
+    <div class="card" style="width: 18rem;" *ngFor="let c of Comentarios">
+        <div class="card-body">
+            <h5 class="card-title">{{c.usuario.nombreUsuario}}</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">publicacion: {{c.publicacion.idPublicacion}}</h6>
+            <p class="card-text">{{c.textoComentario}}</p>
+            <button matFab aria-label="Example icon button with a delete icon" (click)="EliminarC(c)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </div>
+    <br><br>
+    <h5>Todas las Publicaciones</h5>
+
+    <div class="card" *ngFor="let pub of Publicacionlista">
+        <img [src]="pub.imagen" class="card-img">
+
+        <div class="card-header">
+            <p class="subtitle">Reacciones: {{ pub.cantidadMegusta }}</p>
+            <p class="subtitle">{{ pub.fechaPublicacion }}</p>
+            <h3>{{ pub.usuario.nombreUsuario }}</h3>
+            <div class="card-content">
+                {{ pub.texto }}
+            </div>
+        </div>
+
+        <br>
+        <div class="card-actions">
+            <button matFab extended (click)="VerComentarios()">
+                <mat-icon>visibility</mat-icon>
+                Ver comentarios
+            </button>
+            <button matFab aria-label="Example icon button with a delete icon" (click)="EliminarPublicacion(pub)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+
+        <br>
+
+        <div *ngIf="verComentarios" class="comentarios-container">
+            <div class="comentarios-lista">
+                <ng-container *ngFor="let c of Comentarios">
+                    <div class="comentario-item" *ngIf="c.publicacion.idPublicacion === pub.idPublicacion">
+                        <div class="comentario-contenido">
+                            <div class="comentario-nombre"> <strong>{{ c.usuario.nombreUsuario }}</strong></div>
+                            <div class="comentario-texto">{{ c.textoComentario }} <button matFab
+                                    aria-label="Example icon button with a delete icon" (click)="EliminarC(c)">
+                                    <mat-icon>delete</mat-icon>
+                                </button></div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <br><br>
+    </div>
+</div>
